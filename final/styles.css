@@ -1,0 +1,228 @@
+* {
+    box-sizing: border-box;  /*控制所有內容內外距*/
+  }
+  
+  html,
+  body {
+    height: 100%;
+    display: flex;      /*隨視窗大小彈性分布*/
+    justify-content: center;
+    align-items: center;
+  }
+  
+  body {
+    font-family: "Euclid Circular A", Poppins;  /*字體*/
+    color: #f9f9f9;
+    background-image: url("water.jpg");
+    background-size:cover;           /*填滿顯示背景圖片*/
+    background-repeat: no-repeat;    /*不重疊*/
+    background-position: 0% 0%;      /*隨選單從左上角開始顯示*/
+  }
+  
+  button {
+    border: 0;
+    padding: 0;
+    background: transparent;  /*透明底不遮擋內容*/
+    cursor: pointer;   /*觸碰可點擊的內容，游標變手指*/
+  }
+  
+  .burger,.menu {
+    position: fixed;  /*不隨頁面滾動移位*/
+
+  }
+  
+
+  .burger {   /*選單按鈕*/
+    z-index: 4;          /*按鈕在選單背景之上*/
+    top: 0;
+    left: 0;  /*按鈕在左上角進行定位*/
+    display: grid;
+    place-items: center;  /*按鈕置中*/
+    width: 88px;
+    height: 88px;
+    background-image: url("menu.svg");  
+    background-repeat: no-repeat;   /*按鈕不重疊*/
+    background-position: center;   /*按鈕在中心顯示*/
+
+  }
+  
+
+  body.open .burger {   /*關閉按鈕*/
+    background-image: url("close.svg");   
+  }
+  
+  /*暗色背景*/
+
+  .background {   
+    position: fixed;  
+    z-index: 2;          /*暗色背景在底圖之上*/
+    top: 44px;
+    left: 44px;  /*按鈕在左上角進行定位*/
+    aspect-ratio: 1 / 1;   /*寬高比1:1*/
+    translate: -70% -50%;   /*居中顯示*/
+    height: 88px;
+    /* background: #0b1830; */
+
+    background: linear-gradient(
+      90deg,
+      #0f1834,#0e1d30, #173a63);
+      filter: blur(90px);
+    border-radius: 50%;   /*圓形邊框*/
+    opacity: 0;
+    transition: 0.6s;
+  }
+  
+
+  body.open .background {
+    height: 250vh;
+    opacity: 0.9;
+  }
+  
+  .menu {   /*選單隱藏*/
+    z-index: 3;         /*選單在暗色背景之上*/
+    top: 0;
+    left: 0;
+    display: flex;      /*隨視窗大小彈性分布*/
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;  
+    transition: 0.05s;
+
+
+  }
+  
+  .menu nav {    /*項目*/
+    display: flex;      /*隨視窗大小彈性分布*/
+    flex-direction: column;  /*項目垂直排列*/
+    justify-content: center;
+    align-items: flex-start;   /*視窗縮放時，讓項目保持在左側*/
+    padding-left: 100px;  /*項目左側內距*/
+  }
+  
+  body.open .menu {   /*選單顯示*/
+    opacity: 1;
+    visibility: visible;   
+  }
+  
+  body .menu nav:hover > a {     /*滑鼠觸碰項目，其餘25%透明顯示*/
+    opacity: 0.25;
+  }
+  
+  body .menu nav > a:hover {     /*滑鼠觸碰項目100%顯示*/
+    opacity: 1;
+    translate: 8px 0;
+  }
+  
+  /*項目文字*/
+
+  .menu a {              
+    position: relative;
+    color: #ffffff;
+    font-size: 32px;
+    font-family: "Roboto", Arial, "Segoe UI", sans-serif;
+    /* padding: 20px 0 20px 20px;     */
+    padding: 1em 2em;       /* 內距上右下左 */
+    text-decoration: none;      /*文字沒有裝飾*/
+    opacity: 0;
+    cursor: pointer;
+    transition: 0.4s;
+    --border-radius: 25px;
+    --border-width: 7px;
+    background-color: transparent;
+
+
+  }
+
+  /*底線*/
+
+  .menu a::before {
+    content: "";
+    position: absolute;
+    top: 70%;
+    right: 60px;
+    translate: 1 -20%;
+    margin-top: 1px;
+    width: 200%;
+    height: 1%;
+    background-color:#ffffff;
+    z-index: -1;
+    border-radius: 50px;
+  }
+
+  /*觸碰項目*/
+
+  .menu a::after {   
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    translate: 0 -50%;
+    margin-top: 1px;
+    background: linear-gradient(
+      45deg,
+      #4cffea, #27beff, #00ff66, #00fff7,
+        #b300ff, #2600ff, #6797ff, #baf5ff
+  );
+    background-size: 600%;
+    z-index: -1;
+    width: 70%;
+    height: 70%;
+    filter: blur(15px);
+    animation: glowing345 20s linear infinite;
+    transition: opacity .3s ease-in-out;
+    border-radius: 50px;
+
+    opacity: 0;
+    transition: 0.2s;
+  
+  }
+  
+  .menu a:hover::after {    /*顯示項目*/
+    opacity: 1;
+  }
+  
+
+
+
+
+  /*顯示點擊選單動畫*/
+
+  @keyframes appear {   
+    0% {          /*開始*/
+      opacity: 0;
+      translate: -30px 0;
+    }
+    100% {        /*結束*/
+      opacity: 1;
+    }
+  }
+
+    /*彩色動畫*/
+
+  @keyframes glowing345 {
+    0% {
+      background-position: 0 0;      /*開始*/
+    }
+  
+    50% {
+      background-position: 400% 0;   /*中間*/
+    }
+  
+    100% {
+      background-position: 0 0;      /*結束*/
+    }
+  }
+
+  body.open .menu a {
+    opacity: 1;
+    animation: appear 0.35s backwards;
+  }
+
+  .main{
+    width: 95vw;
+    height: 95vh;
+
+    
+  }
